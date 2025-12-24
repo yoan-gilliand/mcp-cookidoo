@@ -14,6 +14,10 @@ import google.generativeai as genai
 from google.generativeai.types import FunctionDeclaration, Tool
 from cookidoo_service import CookidooService
 from schemas import CustomRecipe
+import extra_streamlit_components as stx
+import datetime
+import hashlib
+import time
 
 # Page configuration
 st.set_page_config(
@@ -606,8 +610,31 @@ def check_password() -> bool:
     if "authenticated" not in st.session_state:
         st.session_state.authenticated = False
     
+    # Initialize cookie manager with a key to prevent key collisions and ensure stability
+    cookie_manager = stx.CookieManager(key="auth_manager")
+    
+    # Check if already authenticated via session state
     if st.session_state.authenticated:
         return True
+        
+    # Check for auth cookie
+    app_password = st.secrets.get("app_password", "")
+    password_hash = hashlib.sha256(app_password.encode()).hexdigest()
+    
+    # Wait for cookies to be available
+    cookies = cookie_manager.get_all()
+    
+    # If cookies are None, we might need to wait for the component to mount
+    if cookies is None:
+         # Initial component load
+         st.spinner("Checking authentication...")
+         # We return False here to stop execution but the component will trigger a rerun
+         pass 
+    else:
+        auth_cookie = cookies.get("auth_token")
+        if auth_cookie and auth_cookie == password_hash:
+            st.session_state.authenticated = True
+            return True
     
     st.markdown("# 🍳 Cookidoo")
     st.markdown('<p class="subtitle">AI-powered Thermomix recipe creator</p>', unsafe_allow_html=True)
@@ -629,9 +656,18 @@ def check_password() -> bool:
         )
         
         if st.button("Continue →", use_container_width=True):
-            if password == st.secrets.get("app_password", ""):
+            if password == app_password:
                 st.session_state.authenticated = True
+                
+                # Always set cookie with hashed password, expires in 30 days
+                expires = datetime.datetime.now() + datetime.timedelta(days=30)
+                cookie_manager.set("auth_token", password_hash, expires_at=expires)
+                
+                # Small delay to ensure cookie is set before rerun
+                time.sleep(0.5)
                 st.rerun()
+            elif password == "":
+                 st.warning("Please enter a password")
             else:
                 st.error("Incorrect password")
     
