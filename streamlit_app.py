@@ -40,6 +40,7 @@ st.markdown("""
     .main .block-container {
         max-width: 800px;
         padding-top: 2rem;
+        padding-bottom: 6rem;
     }
     
     /* Header */
@@ -84,13 +85,50 @@ st.markdown("""
     .welcome-card h3 {
         color: #ffffff !important;
         font-weight: 500 !important;
-        margin-bottom: 1rem !important;
+        margin-bottom: 1.5rem !important;
     }
     
-    .welcome-card p {
-        color: rgba(255,255,255,0.6);
+    /* Steps grid - 2x2 layout */
+    .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .step-item {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        padding: 1.25rem;
+        border-radius: 12px;
+        text-align: left;
+        transition: all 0.2s ease;
+    }
+    
+    .step-item:hover {
+        background: rgba(255,255,255,0.06);
+        border-color: rgba(255,255,255,0.12);
+        transform: translateY(-2px);
+    }
+    
+    .step-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+        border-radius: 50%;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: rgba(255,255,255,0.9);
+        margin-bottom: 0.75rem;
+    }
+    
+    .step-text {
+        color: rgba(255,255,255,0.75);
         font-size: 0.9rem;
-        line-height: 1.6;
+        line-height: 1.4;
     }
     
     .welcome-card .step {
@@ -116,56 +154,115 @@ st.markdown("""
         color: rgba(255,255,255,0.9) !important;
     }
     
-    /* Chat input */
-    .stChatInput {
+    /* Chat input - harmonized with dark theme */
+    [data-testid="stChatInput"] {
+        padding: 1rem 0 !important;
+    }
+    
+    [data-testid="stChatInput"] > div {
+        background: rgba(255, 255, 255, 0.04) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
         border-radius: 16px !important;
+        padding: 0.25rem !important;
     }
     
-    .stChatInput > div {
-        background: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 16px !important;
+    [data-testid="stChatInput"] textarea {
+        background: transparent !important;
+        color: rgba(255,255,255,0.95) !important;
+        caret-color: rgba(255,255,255,0.8) !important;
     }
     
-    .stChatInput input {
-        color: #ffffff !important;
-    }
-    
-    .stChatInput input::placeholder {
+    [data-testid="stChatInput"] textarea::placeholder {
         color: rgba(255,255,255,0.4) !important;
     }
     
-    /* Buttons */
+    /* Chat input send button */
+    [data-testid="stChatInput"] button {
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: none !important;
+        border-radius: 10px !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    [data-testid="stChatInput"] button:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+    }
+    
+    [data-testid="stChatInput"] button svg {
+        fill: rgba(255,255,255,0.8) !important;
+    }
+    
+    /* Buttons - consistent style */
     .stButton > button {
-        background: rgba(255, 255, 255, 0.05) !important;
+        background: rgba(255, 255, 255, 0.06) !important;
         color: rgba(255,255,255,0.9) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
         border-radius: 12px !important;
         padding: 0.6rem 1.2rem !important;
         font-weight: 500 !important;
         font-size: 0.9rem !important;
-        transition: all 0.2s ease !important;
+        transition: all 0.25s ease !important;
     }
     
     .stButton > button:hover {
-        background: rgba(255, 255, 255, 0.1) !important;
-        border-color: rgba(255, 255, 255, 0.2) !important;
+        background: rgba(255, 255, 255, 0.12) !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
     }
     
-    /* File uploader */
+    .stButton > button:active {
+        transform: translateY(0);
+    }
+    
+    /* File uploader - improved contrast for accessibility */
     [data-testid="stFileUploader"] {
-        background: rgba(255, 255, 255, 0.02) !important;
-        border: 1px dashed rgba(255, 255, 255, 0.1) !important;
+        background: rgba(255, 255, 255, 0.03) !important;
+        border: 1px dashed rgba(255, 255, 255, 0.15) !important;
         border-radius: 12px !important;
         padding: 1rem !important;
     }
     
     [data-testid="stFileUploader"] label {
-        color: rgba(255,255,255,0.6) !important;
+        color: rgba(255,255,255,0.8) !important;
     }
     
     [data-testid="stFileUploaderDropzone"] {
-        background: transparent !important;
+        background: rgba(255, 255, 255, 0.02) !important;
+        border-radius: 10px !important;
+    }
+    
+    /* Fix contrast in file uploader dropzone text */
+    [data-testid="stFileUploaderDropzone"] span {
+        color: rgba(255,255,255,0.7) !important;
+    }
+    
+    [data-testid="stFileUploaderDropzone"] small {
+        color: rgba(255,255,255,0.5) !important;
+    }
+    
+    /* File uploader button - consistent with other buttons */
+    [data-testid="stFileUploaderDropzone"] button {
+        background: rgba(255, 255, 255, 0.08) !important;
+        color: rgba(255,255,255,0.9) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 10px !important;
+        padding: 0.5rem 1rem !important;
+        font-weight: 500 !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    [data-testid="stFileUploaderDropzone"] button:hover {
+        background: rgba(255, 255, 255, 0.12) !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
+    }
+    
+    /* Upload section container */
+    .upload-section {
+        display: flex;
+        align-items: stretch;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
     }
     
     /* Success/Info/Error */
@@ -177,9 +274,10 @@ st.markdown("""
     }
     
     .stError {
-        background: rgba(255, 100, 100, 0.1) !important;
-        border: 1px solid rgba(255, 100, 100, 0.2) !important;
+        background: rgba(255, 80, 80, 0.12) !important;
+        border: 1px solid rgba(255, 80, 80, 0.25) !important;
         border-radius: 12px !important;
+        color: rgba(255,200,200,0.95) !important;
     }
     
     /* Spinner */
@@ -216,6 +314,59 @@ st.markdown("""
         display: flex;
         gap: 0.5rem;
         margin-bottom: 1rem;
+    }
+    
+    /* Login card specific styles */
+    .login-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        padding: 2.5rem;
+        margin: 2rem auto;
+        max-width: 400px;
+        text-align: center;
+    }
+    
+    .login-card h3 {
+        color: #ffffff !important;
+        font-weight: 500 !important;
+        margin-bottom: 0.5rem !important;
+        font-size: 1.5rem !important;
+    }
+    
+    .login-card p {
+        color: rgba(255,255,255,0.5);
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Password input styling */
+    [data-testid="stTextInput"] input {
+        background: rgba(255, 255, 255, 0.04) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 12px !important;
+        color: rgba(255,255,255,0.95) !important;
+        padding: 0.75rem 1rem !important;
+        font-size: 1rem !important;
+    }
+    
+    [data-testid="stTextInput"] input:focus {
+        border-color: rgba(255, 255, 255, 0.25) !important;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05) !important;
+    }
+    
+    [data-testid="stTextInput"] input::placeholder {
+        color: rgba(255,255,255,0.4) !important;
+    }
+    
+    /* Eye icon in password field */
+    [data-testid="stTextInput"] button {
+        color: rgba(255,255,255,0.5) !important;
+    }
+    
+    [data-testid="stTextInput"] button:hover {
+        color: rgba(255,255,255,0.8) !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -462,8 +613,9 @@ def check_password() -> bool:
     st.markdown('<p class="subtitle">AI-powered Thermomix recipe creator</p>', unsafe_allow_html=True)
     
     st.markdown("""
-    <div class="welcome-card">
-        <h3>🔐 Enter to continue</h3>
+    <div class="login-card">
+        <h3>🔐 Welcome Back</h3>
+        <p>Enter your password to continue</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -586,12 +738,24 @@ def main_app():
         st.markdown("""
         <div class="welcome-card">
             <h3>How it works</h3>
-            <p>
-                <span class="step">1. Paste a recipe URL</span>
-                <span class="step">2. Or upload an image</span>
-                <span class="step">3. AI adapts for Thermomix</span>
-                <span class="step">4. Say OK to upload</span>
-            </p>
+            <div class="steps-grid">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Paste a recipe URL from any website</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-text">Or upload an image of a recipe</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-text">AI adapts it for Thermomix</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-text">Say OK to upload to Cookidoo</div>
+                </div>
+            </div>
         </div>
         """, unsafe_allow_html=True)
     
@@ -600,50 +764,47 @@ def main_app():
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
     
-    # Image upload section (always visible above chat input)
-    col1, col2 = st.columns([3, 1])
-    
-    with col1:
+    # Image upload section - only show when no messages yet
+    if not st.session_state.messages:
         uploaded_file = st.file_uploader(
             "📷 Upload recipe image",
             type=["jpg", "jpeg", "png", "webp"],
             label_visibility="collapsed",
             key="image_upload"
         )
-    
-    with col2:
-        if st.button("🗑️ Clear", use_container_width=True):
-            st.session_state.messages = []
-            st.session_state.pending_image = None
-            st.rerun()
-    
-    # Process uploaded image
-    if uploaded_file is not None and st.session_state.pending_image != uploaded_file.name:
-        st.session_state.pending_image = uploaded_file.name
         
-        with st.spinner("📷 Reading recipe from image..."):
-            try:
-                import PIL.Image
-                import io
-                
-                image_bytes = uploaded_file.getvalue()
-                image = PIL.Image.open(io.BytesIO(image_bytes))
-                
-                genai.configure(api_key=st.secrets["gemini_api_key"])
-                model = genai.GenerativeModel("gemini-2.5-flash")
-                
-                response = model.generate_content([
-                    "Extrais la recette de cette image. Donne-moi le nom, les ingrédients et les étapes. Réponds en français de manière structurée.",
-                    image
-                ])
-                
-                extracted_text = response.text
-                user_msg = f"📷 Recette extraite d'une image:\n\n{extracted_text}\n\nAdapte cette recette pour le Thermomix."
-                st.session_state.messages.append({"role": "user", "content": user_msg})
-                st.rerun()
-                
-            except Exception as e:
-                st.error(f"Error: {str(e)}")
+        # Process uploaded image
+        if uploaded_file is not None and st.session_state.pending_image != uploaded_file.name:
+            st.session_state.pending_image = uploaded_file.name
+            
+            with st.spinner("📷 Lecture et adaptation de la recette..."):
+                try:
+                    import PIL.Image
+                    import io
+                    
+                    image_bytes = uploaded_file.getvalue()
+                    image = PIL.Image.open(io.BytesIO(image_bytes))
+                    
+                    genai.configure(api_key=st.secrets["gemini_api_key"])
+                    model = genai.GenerativeModel("gemini-2.5-flash")
+                    
+                    response = model.generate_content([
+                        "Extrais la recette de cette image. Donne-moi le nom, les ingrédients et les étapes. Réponds en français de manière structurée.",
+                        image
+                    ])
+                    
+                    extracted_text = response.text
+                    user_msg = f"📷 Recette extraite d'une image:\n\n{extracted_text}\n\nAdapte cette recette pour le Thermomix."
+                    
+                    # Process the extracted recipe with Gemini to adapt for Thermomix
+                    # Don't add user message to history - just show the AI response
+                    response_text, function_logs = process_with_gemini(user_msg, [])
+                    
+                    st.session_state.messages.append({"role": "assistant", "content": response_text})
+                    st.rerun()
+                    
+                except Exception as e:
+                    st.error(f"Error: {str(e)}")
     
     # Chat input
     if prompt := st.chat_input("Paste a recipe URL or describe what you want..."):
