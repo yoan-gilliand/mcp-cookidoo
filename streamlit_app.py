@@ -361,29 +361,15 @@ async def upload_to_cookidoo(name: str, ingredients: list, steps: list, servings
 
 # ==================== GEMINI SETUP ====================
 
-SYSTEM_PROMPT = """Tu es un expert culinaire spécialisé dans la création de recettes pour le Thermomix. Tu as une parfaite compréhension de ses modes, accessoires et comment écrire des instructions claires et précises.
+# Load system prompt
+try:
+    with open("system_prompt.md", "r", encoding="utf-8") as f:
+        SYSTEM_PROMPT = f.read()
+except FileNotFoundError:
+    st.error("System prompt file not found!")
+    SYSTEM_PROMPT = "You are a helpful assistant."
 
-## Directives pour écrire des recettes Thermomix
-
-Chaque étape doit utiliser le vocabulaire spécifique du Thermomix :
-- **Vitesse** : vitesse 1, vitesse 5, vitesse 🥄 (mijotage), sens inverse 🔄
-- **Température** : 50°C, 100°C, 120°C, Varoma
-- **Temps** : 5 min, 30 sec
-- **Fonctions** : Mode pétrissage 🌾, Turbo, Mixer
-- **Accessoires** : fouet papillon, panier de cuisson, spatule
-
-Exemples de bonnes instructions :
-- "Mettre l'oignon coupé en deux dans le bol, puis mixer 5 sec / vitesse 5. Racler les parois du bol avec la spatule."
-- "Ajouter l'huile d'olive et faire revenir 3 min / 120°C / sens inverse 🔄 / vitesse 1."
-
-## Processus de travail
-
-1. Quand l'utilisateur te donne un lien de recette, utilise l'outil `scrape_recipe` pour récupérer les détails
-2. Analyse la recette et ADAPTE-LA pour le Thermomix avec les instructions appropriées
-3. Montre la recette adaptée à l'utilisateur et demande confirmation
-4. Une fois approuvé, utilise `upload_recipe` pour publier sur Cookidoo
-
-IMPORTANT : Tu dois TOUJOURS adapter les étapes pour le Thermomix, pas juste copier les étapes originales !"""
+# ==================== GEMINI SETUP ====================
 
 
 def get_gemini_tools():
@@ -676,6 +662,11 @@ def main_app():
                         st.caption(log)
                     
                     st.markdown(response_text)
+                    
+                    # Check for equipment warning
+                    if "[[ATTENTION : ÉQUIPEMENT SUPPLÉMENTAIRE REQUIS]]" in response_text:
+                        st.warning("⚠️ Attention : Cette recette nécessite un équipement supplémentaire (four, poêle, etc.) que le Thermomix ne peut pas remplacer.")
+                        
                     st.session_state.messages.append({"role": "assistant", "content": response_text})
                     
                 except Exception as e:
